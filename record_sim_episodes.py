@@ -173,6 +173,10 @@ def main(args):
 
             for name, array in data_dict.items():
                 root[name][...] = array
+
+            # Save box_pose and success metadata (for reproducibility and analysis)
+            root.create_dataset('box_pose', data=subtask_info[:7])  # (7,) [x,y,z,qw,qx,qy,qz]
+            root.create_dataset('success', data=(episode_max_reward == env.task.max_reward))
         print(f'Saving: {time.time() - t0:.1f} secs\n')
 
     print(f'Saved to {dataset_dir}')
